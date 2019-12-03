@@ -1,0 +1,21 @@
+.masthead {
+  a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+  }
+  .masthead-brand {
+    float: left;
+    margin-left: 5%;
+  }
+
+  .nav-masthead {
+    float: right;
+    margin-right: 5%;
+
+    a:hover {
+        color: white;
+        border-bottom: 1px solid white;
+        transition: all 1s linear;
+    }
+  }
+}
