@@ -5,7 +5,16 @@
         <a class="nav-link" href="#">Home</a>
         <a class="nav-link" href="#">Features</a>
         <a class="nav-link" href="#">Contact</a>
-        <div class="nav-link login"></div>
+        <%# <div class="nav-link login"></div> %>
+        <%= content_tag(
+          :div, '',
+          class: 'nav-link login',
+          data: {
+            props: {
+              user_logged: current_user
+            }
+          }
+        ) %>
       </nav>
     </div>
   </header>

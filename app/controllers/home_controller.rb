@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    puts 'index'
+    puts current_user
   end
 end
