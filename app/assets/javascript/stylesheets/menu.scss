@@ -5,17 +5,20 @@
   }
   .masthead-brand {
     float: left;
-    margin-left: 5%;
   }
 
   .nav-masthead {
     float: right;
-    margin-right: 5%;
-
+    color: rgb(192, 192, 192);
     a:hover {
         color: white;
         border-bottom: 1px solid white;
         transition: all 1s linear;
+    }
+
+    .login {
+      color:white;
+      cursor: pointer;
     }
   }
 }

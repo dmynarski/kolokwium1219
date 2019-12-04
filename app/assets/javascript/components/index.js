@@ -1,7 +1,7 @@
-/* eslint-disable semi */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import HomePage from './HomePage'
+import Login from './Login'
 import _ from 'lodash'
 
 
@@ -18,6 +18,6 @@ const initComponent = (selector, component) => {
 };
 
 document.addEventListener("turbolinks:load", () => {
-  // define React entry points here
-  initComponent(".home-page", HomePage);
+  initComponent(".home_page", HomePage);
+  initComponent(".login", Login);
 });

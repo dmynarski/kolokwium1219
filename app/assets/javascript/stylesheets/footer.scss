@@ -1,0 +1,12 @@
+.footer {
+  color: rgba(128, 128, 128, 0.411);
+
+  a {
+    text-decoration: none;
+    color: rgba(128, 128, 128, 0.411);
+  }
+  a:hover {
+    border-bottom: 1px solid rgba(168, 168, 168, 0.411);
+    transition: all 1s linear;
+  }
+}
