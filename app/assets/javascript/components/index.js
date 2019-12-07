@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import HomePage from './HomePage'
+import Index from './Cars/index'
 import Login from './Login'
 import _ from 'lodash'
 
@@ -20,4 +21,5 @@ const initComponent = (selector, component) => {
 document.addEventListener("turbolinks:load", () => {
   initComponent(".home_page", HomePage);
   initComponent(".login", Login);
+  initComponent(".index", Index);
 });

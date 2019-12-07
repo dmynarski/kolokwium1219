@@ -128,7 +128,6 @@ class HomePage extends React.Component {
       </div>
     )
     
-console.log(this.props)
     return (
       <div>
         <Popup trigger={<i className="fa fa-male"></i>} modal contentStyle={popupStyle}>
