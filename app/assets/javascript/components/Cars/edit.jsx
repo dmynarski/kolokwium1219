@@ -9,18 +9,19 @@ import Select from 'react-select'
 import Popup from 'reactjs-popup'
 import _ from 'lodash'
 
-class AddNewCar extends React.Component {
+class EditCar extends React.Component {
   constructor(props) {
     super(props)
+    const { car } = this.props
     this.state = {
       fields: {
-        year: '',
-        brand: '',
-        model: '',
-        engine: null,
-        power: null,
-        price: null,
-        color: ''
+        year: car.year,
+        brand: car.brand,
+        model: car.model,
+        engine: car.engine,
+        power: car.power,
+        price: car.price,
+        color: car.color
       },
       getMakes: [],
       getModels: [],
@@ -31,6 +32,14 @@ class AddNewCar extends React.Component {
       responseMessage: ''
     }
     this.submit = this.submit.bind(this)
+  }
+
+  componentDidMount() {
+    const { car } = this.props
+    console.log(car)
+    this.searchCar(`getMakes`,`&year=${car.year}`)
+    this.searchCar(`getModels`,`&make=${car.brand}&year=${car.year}`)
+    this.getTrims(`make=${car.brand}&year=${car.year}&model=${car.model}`)
   }
 
   handleFieldValue = (fieldName, value) => {
@@ -61,10 +70,10 @@ class AddNewCar extends React.Component {
     ))
     formData.append('authenticity_token', document.querySelector('meta[name="csrf-token"]').getAttribute("content"))
 
-    axios.post('cars', formData, { headers: { 'Content-Type': 'multipart/form-data' }})
+    axios.patch(`/cars/${this.props.car.id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' }})
     .then(response => (
       this.setState({
-        responseMessage: 'Car added succesfully!'
+        responseMessage: 'Car updated succesfully!'
       }),
       window.location.reload()
     ))
@@ -116,7 +125,9 @@ class AddNewCar extends React.Component {
         brand,
         model,
         engine,
-        power
+        power,
+        price,
+        color
       },
       getMakes,
       getModels,
@@ -126,30 +137,25 @@ class AddNewCar extends React.Component {
       models,
       responseMessage
     } = this.state
+    console.log(this.state)
     return(
-     <Popup
-      trigger={<Button className="header_button">Add new car</Button>}
-      modal
-      contentStyle={{
-        border: 'none',
-        background: 'none',
-        width: '30%'
-      }}
-     >
-       {close => (
        <div className="modal-content">
          <div className="modal-header">
-           <h3>Add new car</h3>
+            <h3>Edit Car#{this.props.car.id} {brand} {model}</h3>
          </div>
          <div className="modal-body">
           <Form>
             <Form.Group>
               <Form.Label>Year</Form.Label>
-              <Form.Control placeholder="Input Year" onChange={event => (this.handleFieldValue('year', event.target.value), event.target.value.length === 4 ? this.searchCar(`getMakes`,`&year=${event.target.value}`) : '')} />
+              <Form.Control placeholder="Input Year"
+               value={year} 
+               onChange={event => (this.handleFieldValue('year', event.target.value), 
+                                  event.target.value.length === 4 ? this.searchCar(`getMakes`,`&year=${event.target.value}`) : '')} />
             </Form.Group>
             <Form.Group>
               <Form.Label>Select Brand</Form.Label>
               <Select 
+              value={_.find(getMakes, ['value', brand])}
               options={getMakes}
               onChange={event => (this.handleFieldValue('brand', event.value), this.searchCar(`getModels`,`&make=${event.value}&year=${year}`))}
               />
@@ -157,6 +163,7 @@ class AddNewCar extends React.Component {
             <Form.Group>
               <Form.Label>Select Model</Form.Label>
               <Select 
+              value={_.find(getModels, ['value', model])}
               options={getModels}
               onChange={event => (this.handleFieldValue('model', event.value), this.getTrims(`&make=${brand}&year=${year}&model=${event.value}`))}
               />
@@ -164,6 +171,7 @@ class AddNewCar extends React.Component {
             <Form.Group>
               <Form.Label>Select Engine (CM3)</Form.Label>
               <Select 
+              value={_.find(engines, ['value', parseInt(engine).toString()])}
               options={engines}
               onChange={event => (this.handleFieldValue('engine', event.value),
                                   this.setState({ trims: _.find(getTrims[0], ['model_engine_cc', event.value.toString()])}),
@@ -176,11 +184,11 @@ class AddNewCar extends React.Component {
             </Form.Group>
             <Form.Group>
               <Form.Label>Price</Form.Label>
-              <Form.Control placeholder="Input price per day" onChange={event => (this.handleFieldValue('price', event.target.value))} />
+              <Form.Control placeholder="Input price per day" value={price} onChange={event => (this.handleFieldValue('price', event.target.value))} />
             </Form.Group>
             <Form.Group>
               <Form.Label>Color</Form.Label>
-              <Form.Control placeholder="Input color of car" onChange={event => (this.handleFieldValue('color', event.target.value))} />
+              <Form.Control placeholder="Input color of car" value={color} onChange={event => (this.handleFieldValue('color', event.target.value))} />
             </Form.Group>
           </Form>
          </div>
@@ -190,10 +198,8 @@ class AddNewCar extends React.Component {
             <Button variant="dark" onClick={this.submit}>Add</Button>
          </div>
        </div>
-       )}
-     </Popup>
     )
   }
 }
 
-export default AddNewCar
+export default EditCar

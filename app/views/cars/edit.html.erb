@@ -1,9 +1,9 @@
 <%= content_tag(
   :div, '',
-  class: 'index',
+  class: 'edit',
   data: {
     props: {
-      userLogged: current_user
+      car: @car.as_json
     }
   }
 ) %>

@@ -5,14 +5,17 @@ import Spinner from 'react-bootstrap/Spinner'
 import Card from 'react-bootstrap/Card'
 import _ from 'lodash'
 import AddNewCar from './new'
+import EditCar from './edit'
 
 class Index extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cars: []
+      cars: [],
+      userLogged: this.props.userLogged
     }
     this.renderCarCard = this.renderCarCard.bind(this)
+    this.deleteCar = this.deleteCar.bind(this)
   }
 
   componentDidMount() {
@@ -33,22 +36,43 @@ class Index extends React.Component {
     ))
   }
 
+  deleteCar(id) {
+    axios.delete(`/cars/${id}`)
+    .then(response => (
+      alert("Car deleted!"),
+      setTimeout(window.location.reload(), 1000)
+    ))
+    .catch(error => (
+      console.log(error)
+    ))
+  }
+
   renderCarCard(cars) {
     return (
       _.map(cars, car => (
-        <Card style={{ width: '18rem' }}>
+        <div style={{ marginLeft: 'auto', marginRight: 'auto'}}>
+        <Card style={{ width: '18rem', float: 'left', marginRight: '15px', marginTop: '10px' }}>
           <Card.Img variant="top" src="http://cam-l.pl/wp-content/uploads/2019/06/cc30.jpg" />
           <Card.Body>
-            <Card.Title>{car.brand}{car.model}</Card.Title>
+            <Card.Title>{car.brand} {car.model}</Card.Title>
             <Card.Text>
               <p>Year: {car.year}</p>
-              <p>Horsepower: {car.power}</p>
+              <p>Engine: {car.engine} cm3</p>
+              <p>Power: {car.power}HP</p>
               <p>Color: {car.color}</p>
-              <p>Price per 24h: {car.price}</p>
+              <p>Price per 24h: {car.price}PLN</p>
             </Card.Text>
+            { _.isNil(this.state.userLogged) ? 
+            null 
+            :
+             <React.Fragment>
+               <a href={`/cars/${car.id}`} className="btn btn-primary">Edit</a>
+               <Button variant="danger" onClick={() => window.confirm(`Delete ${car.brand} ${car.model}?`) && this.deleteCar(car.id)}>Delete</Button>
+             </React.Fragment> }
             <Button variant="dark">Order</Button>
           </Card.Body>
         </Card>
+        </div>
       ))
     )
   }
