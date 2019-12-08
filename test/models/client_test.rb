@@ -6,6 +6,6 @@ class ClientTest < ActiveSupport::TestCase
     client.first_name = "Adam"
     client.last_name = "Kowalski"
     client.email = "adam.kowalski@onet.pl"
-    assert client.save
+    assert_not client.save
   end
 end

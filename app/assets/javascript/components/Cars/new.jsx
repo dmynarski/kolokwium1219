@@ -78,7 +78,6 @@ class AddNewCar extends React.Component {
     axios.get(`https://cors-anywhere.herokuapp.com/https://www.carqueryapi.com/api/0.3/?callback=?&cmd=${whatToGet}${arg}`)
     .then(response => (
       data = Object.values(JSON.parse(response.data.slice(2,response.data.length -2))),
-      console.log(data),
       this.setState({
         [whatToGet]: _.map(data[0], object => ({
           value: Object.values(object)[0],
@@ -96,7 +95,6 @@ class AddNewCar extends React.Component {
     axios.get(`https://cors-anywhere.herokuapp.com/https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&${arg}`)
     .then(response => (
       data = Object.values(JSON.parse(response.data.slice(2,response.data.length -2))),
-      console.log(data),
       this.setState({
         getTrims: data,
         engines: _.map(data[0], object => ({

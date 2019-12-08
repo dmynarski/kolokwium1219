@@ -66,7 +66,7 @@ class Index extends React.Component {
             null 
             :
              <React.Fragment>
-               <a href={`/cars/${car.id}`} className="btn btn-primary">Edit</a>
+               <a href={`/cars/${car.id}/edit`} className="btn btn-primary">Edit</a>
                <Button variant="danger" onClick={() => window.confirm(`Delete ${car.brand} ${car.model}?`) && this.deleteCar(car.id)}>Delete</Button>
              </React.Fragment> }
             <Button variant="dark">Order</Button>

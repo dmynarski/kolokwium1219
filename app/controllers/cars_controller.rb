@@ -1,4 +1,5 @@
 class CarsController < ApplicationController
+  before_action :authenticate_user!, except: [:index]
   def index
     @cars = Car.all
     respond_to do |format|
@@ -7,20 +8,15 @@ class CarsController < ApplicationController
     end
   end
 
-  def new
-    
-  end
+  def new; end
 
   def create
     response = ::Cars::CreateCarService.new(permitted_attributes: car_params).call
   end
 
-  def show
-    
-  end
+  def show; end
 
-  def delete
-    
+  def delete 
   end
 
   def destroy

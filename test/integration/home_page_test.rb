@@ -5,4 +5,5 @@ class HomePageTest < ActionDispatch::IntegrationTest
     get '/'
     assert_select "h4", "Check our offert"
   end
+
 end
